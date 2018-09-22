@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MessageStore.API.Storage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -35,6 +36,8 @@ namespace MessageStore.API
                     castedResolver.NamingStrategy = null;
                 }
             });
+
+            services.AddSingleton<IMessageDataStore, MessageDataStore>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

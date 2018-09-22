@@ -10,18 +10,25 @@ namespace MessageStore.API.Controllers
     [Route("api/messages")]
     public class MessageController : Controller
     {
+        private readonly IMessageDataStore _current;
+
+        public MessageController(IMessageDataStore messageDataStore)
+        {
+            _current = messageDataStore;
+        }
+
         #region GET
 
         [HttpGet]
         public IActionResult GetCities()
         {
-            return Ok(MessageDataStore.Current.Messages);
+            return Ok(_current.GetMessages());
         }
 
         [HttpGet("{id}")]
         public IActionResult GetMessage(int id)
         {
-            Message messageToReturn = MessageDataStore.Current.Messages.FirstOrDefault(city => city.Id == id);
+            Message messageToReturn = _current.GetMessages().FirstOrDefault(city => city.Id == id);
             
             if(messageToReturn == null) 
             {
@@ -49,8 +56,7 @@ namespace MessageStore.API.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-
-            int numberOfMessages = MessageDataStore.Current.NumberOfMessages;
+            int numberOfMessages = _current.GetNumberOfMessages();
 
             var messageToAdd = new Message
             {
@@ -59,9 +65,9 @@ namespace MessageStore.API.Controllers
                 Body = messageToCreate.Body
             };
 
-            MessageDataStore.Current.Messages.Add(messageToAdd);
+            _current.AddMessage(messageToAdd);
 
-            return CreatedAtRoute("GetPointOfInterest", new 
+            return CreatedAtRoute("GetPointOfInterest", new
             {
                 messageToAdd.Id
             }, messageToAdd);
@@ -82,14 +88,14 @@ namespace MessageStore.API.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteMessage(int messageId) 
         {
-            var message = MessageDataStore.Current.Messages.FirstOrDefault(c => c.Id == messageId);
+            var message = _current.GetMessages().FirstOrDefault(c => c.Id == messageId);
 
             if(message == null)
             {
                 return NotFound();
             }
 
-            MessageDataStore.Current.Messages.Remove(message);
+            _current.RemoveMessage(message);
 
             return NoContent();
         }

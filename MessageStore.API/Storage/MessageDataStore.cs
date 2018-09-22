@@ -3,11 +3,9 @@ using MessageStore.API.Models;
 
 namespace MessageStore.API.Storage
 {
-    public class MessageDataStore
+    public class MessageDataStore : IMessageDataStore
     {
-        public static MessageDataStore Current { get; } = new MessageDataStore();
-
-        public List<Message> Messages { get; set; } = new List<Message>();
+        private List<Message> Messages { get; set; } = new List<Message>();
 
         public MessageDataStore()
         {
@@ -22,12 +20,24 @@ namespace MessageStore.API.Storage
             }
         }
 
-        public int NumberOfMessages
+        public List<Message> GetMessages()
         {
-            get
-            {
-                return Messages.Count;
-            }
+            return Messages;
+        }
+
+        public int GetNumberOfMessages()
+        {
+            return Messages.Count;
+        }
+
+        public void AddMessage(Message message) 
+        {
+            Messages.Add(message);
+        }
+
+        public void RemoveMessage(Message message)
+        {
+            Messages.Remove(message);
         }
     }
 }
