@@ -9,6 +9,19 @@ namespace MessageStore.API.Storage
 
         public List<Message> Messages { get; set; } = new List<Message>();
 
+        public MessageDataStore()
+        {
+            for(int i = 0; i < 100; i++) {
+                var message = new Message 
+                {
+                    Id = i,
+                    Title = $"testTitle{i}",
+                    Body = $"testBody{i}"
+                };
+                Messages.Add(message);
+            }
+        }
+
         public int NumberOfMessages
         {
             get

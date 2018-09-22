@@ -10,6 +10,8 @@ namespace MessageStore.API.Controllers
     [Route("api/messages")]
     public class MessageController : Controller
     {
+        #region GET
+
         [HttpGet]
         public IActionResult GetCities()
         {
@@ -29,8 +31,12 @@ namespace MessageStore.API.Controllers
             return Ok(messageToReturn);
         }
 
+        #endregion
+
+        #region POST
+
         [HttpPost(Name= "CreateMessage")]
-        public IActionResult CreatePMessage([FromBody] BaseMessage messageToCreate) 
+        public IActionResult CreateMessage([FromBody] BaseMessage messageToCreate) 
         {
             if(messageToCreate == null)
                 return BadRequest();
@@ -60,5 +66,34 @@ namespace MessageStore.API.Controllers
                 messageToAdd.Id
             }, messageToAdd);
         }
+
+        #endregion
+
+        #region PUT
+
+        #endregion
+
+        #region PATCH
+
+        #endregion
+
+        #region DELETE
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteMessage(int messageId) 
+        {
+            var message = MessageDataStore.Current.Messages.FirstOrDefault(c => c.Id == messageId);
+
+            if(message == null)
+            {
+                return NotFound();
+            }
+
+            MessageDataStore.Current.Messages.Remove(message);
+
+            return NoContent();
+        }
+
+        #endregion
     }
 }
