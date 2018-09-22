@@ -20,7 +20,7 @@ namespace MessageStore.API.Controllers
         #region GET
 
         [HttpGet]
-        public IActionResult GetCities()
+        public IActionResult GetMessages()
         {
             return Ok(_current.GetMessages());
         }
@@ -43,7 +43,7 @@ namespace MessageStore.API.Controllers
         #region POST
 
         [HttpPost(Name= "CreateMessage")]
-        public IActionResult CreateMessage([FromBody] BaseMessage messageToCreate) 
+        public IActionResult CreateMessage([FromBody] MessageDto messageToCreate) 
         {
             if(messageToCreate == null)
                 return BadRequest();
@@ -53,8 +53,10 @@ namespace MessageStore.API.Controllers
                 ModelState.AddModelError("Body", "The provided Body should be different from the title.");
             }
 
-            if(!ModelState.IsValid)
+            if(!ModelState.IsValid) 
+            {
                 return BadRequest(ModelState);
+            }
 
             int numberOfMessages = _current.GetNumberOfMessages();
 

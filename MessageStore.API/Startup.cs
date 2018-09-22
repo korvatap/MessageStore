@@ -48,6 +48,9 @@ namespace MessageStore.API
             if(env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                loggerFactory.AddConsole();
+                loggerFactory.AddDebug();
+                loggerFactory.AddNLog();
             }
             else
             {
@@ -59,15 +62,6 @@ namespace MessageStore.API
             app.UseStatusCodePages();
 
             app.UseMvc();
-
-            loggerFactory.AddConsole();
-            loggerFactory.AddDebug();
-            loggerFactory.AddNLog();
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
         }
     }
 }

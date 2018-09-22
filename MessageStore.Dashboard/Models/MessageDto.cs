@@ -1,6 +1,6 @@
-namespace MessageStore.API.Models
+namespace MessageStore.Dashboard.Models
 {
-    public class BaseMessage
+    public class MessageDto
     {
         public string Title { get; set; }
 

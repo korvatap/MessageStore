@@ -1,14 +1,9 @@
-using System;
-
 namespace MessageStore.API.Models
 {
-    public class Message
+    public class MessageDto
     {
-        public int Id { get; set; }
-
         public string Title { get; set; }
 
         public string Body { get; set; }
-
     }
 }

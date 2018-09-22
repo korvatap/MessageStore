@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,6 +37,16 @@ namespace MessageStore.Dashboard
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            Uri apiEndPoint = new Uri("http://localhost:5000/"); // this is the endpoint HttpClient will hit
+            var httpClient = new HttpClient
+            {
+                BaseAddress = apiEndPoint,
+            };
+
+            httpClient.DefaultRequestHeaders.Clear();  
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            services.AddSingleton<HttpClient>(httpClient);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
