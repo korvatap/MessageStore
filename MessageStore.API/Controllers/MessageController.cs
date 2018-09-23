@@ -146,7 +146,7 @@ namespace MessageStore.API.Controllers
 
         #region DELETE
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{messageId}")]
         public IActionResult DeleteMessage(int messageId)
         {
             var message = _current.GetMessage(messageId);

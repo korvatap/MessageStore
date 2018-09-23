@@ -9,10 +9,6 @@ namespace MessageStore.API.Storage
     {
         private List<Message> Messages { get; set; } = new List<Message>();
 
-        public MessageDataStore()
-        {
-        }
-
         public List<Message> GetMessages()
         {
             return Messages;

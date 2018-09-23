@@ -42,7 +42,7 @@
     }
 
     function Delete(messageId) {
-        var url = "@apiUrl" + "api/messages/delete" + "?messageId=" + messageId;
+        var url = "@apiUrl" + "api/messages/" + messageId;
         $.ajax({
             url: url,
             type: 'DELETE',
