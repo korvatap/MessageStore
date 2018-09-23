@@ -10,5 +10,8 @@ namespace MessageStore.API.Models
 
         public string Body { get; set; }
 
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime ModifiedAt { get; set; }
     }
 }

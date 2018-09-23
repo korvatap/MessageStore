@@ -1,8 +1,14 @@
+@model MessageDto
 @{
     ViewData["Title"] = "Create Page";
 }
 
-<form method="post" action="/Create">
+@if (ViewBag.ErrorMessage != null)
+{
+    <div style="margin-top: 15px; color: red">@ViewBag.ErrorMessage</div>
+}
+
+<form method="post" asp-controller="Create" asp-action="save">
     <div class="form-group row" style="margin-top:10px;">
         <div class="col-xs-3">
             <label for="title">Title:</label>

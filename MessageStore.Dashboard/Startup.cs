@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using MessageStore.Dashboard.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -35,10 +36,16 @@ namespace MessageStore.Dashboard
 
             services.AddCors();
 
+            ApplicationConfiguration configuration = Configuration.GetSection("ApplicationConfiguration")
+                .Get<ApplicationConfiguration>();
+
+            services.AddSingleton<IApplicationConfiguration, ApplicationConfiguration>(
+                e => configuration);
+
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            Uri apiEndPoint = new Uri("http://localhost:5000/"); // this is the endpoint HttpClient will hit
+            var apiEndPoint = new Uri(configuration.MessageStoreApiUrl);
             var httpClient = new HttpClient
             {
                 BaseAddress = apiEndPoint,
@@ -61,9 +68,12 @@ namespace MessageStore.Dashboard
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            ApplicationConfiguration configuration = Configuration.GetSection("ApplicationConfiguration")
+                .Get<ApplicationConfiguration>();
+
             app.UseCors(builder =>
                 builder
-                .WithOrigins("http://localhost:5000")
+                .WithOrigins(configuration.MessageStoreApiUrl)
                 .AllowAnyHeader()
                 );
 

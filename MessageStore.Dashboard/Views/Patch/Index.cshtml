@@ -1,0 +1,48 @@
+﻿@model Message;
+
+@{
+    ViewData["Title"] = "Patch Page";
+}
+
+@if (ViewBag.PatchTitle)
+{
+    <form asp-controller="Patch" asp-action="patchtitle" method="post">
+        <div class="form-group row" style="margin-top:10px;">
+            <div class="col-xs-3">
+                <label for="title">Title:</label>
+                <input type="hidden" asp-for="Id" />
+                <input asp-for="Title" id="messageTitle" class="form-control">
+            </div>
+        </div>
+        <button class="btn btn-primary" id="submitButton" type="submit">Save</button>
+    </form>
+}
+else
+{
+    <form asp-controller="Patch" asp-action="patchbody" method="post">
+        <div class="form-group row">
+            <div class="col-xs-4">
+                <label for="body">Body:</label>
+                <input type="hidden" asp-for="Id" />
+                <textarea asp-for="Body" id="messageBody" class="form-control"></textarea>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit" id="submitButton">Save</button>
+    </form>
+}
+
+<script type="text/javascript">
+    var patchTitle = @ViewBag.PatchTitle.ToString().ToLower();
+    if (patchTitle) {
+        $("#messageTitle").keyup(function () {
+            var emptyInput = this.value == "" ? true : false;
+            $("#submitButton").prop("disabled", emptyInput);
+        });
+    } else {
+        $("#messageBody").keyup(function() {
+            var emptyInput = this.value == "" ? true : false;
+            $("#submitButton").prop("disabled", emptyInput);
+        });
+    }
+
+</script>

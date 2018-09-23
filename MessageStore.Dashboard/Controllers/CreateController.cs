@@ -1,4 +1,7 @@
+using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using MessageStore.Dashboard.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,26 +18,40 @@ namespace MessageStore.Dashboard.Controllers
             _client = client;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string errorMessage = null, MessageDto message = null)
         {
+            if (errorMessage != null)
+            {
+                ViewBag.ErrorMessage = errorMessage;
+                if (message != null)
+                {
+                    return View(message);
+                }
+            }
+
             return View();
         }
 
-        public async Task<IActionResult> SaveAsync([FromBody] MessageDto messageToSave)
+        [ActionName("save")]
+        public async Task<IActionResult> PostAsync(MessageDto messageToSave)
         {
-            string json = JsonConvert.SerializeObject(messageToSave, Formatting.None    );
-            var httpContent = new StringContent(json);
+            string json = JsonConvert.SerializeObject(messageToSave, Formatting.None);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            Message message;
-            HttpResponseMessage response = await _client.PostAsync($"api/messages/", httpContent);  
-  
-            if (response.IsSuccessStatusCode)  
+            HttpResponseMessage response = await _client.PostAsync($"api/messages/", httpContent);
+
+            if (response.IsSuccessStatusCode)
             {
-                string result = response.Content.ReadAsStringAsync().Result;  
-                message = JsonConvert.DeserializeObject<Message>(result);  
+                return RedirectToAction("Index", "Home");
             }
 
-            return Index();
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                string message = "Please check your input data. Make sure both fields are not empty and Title cannot equal to Body";
+                return RedirectToAction("Index", new {errorMessage = message, message = messageToSave});
+            }
+
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

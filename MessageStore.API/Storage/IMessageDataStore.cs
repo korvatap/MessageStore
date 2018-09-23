@@ -12,5 +12,7 @@ namespace MessageStore.API.Storage
         void AddMessage(Message message);
 
         void RemoveMessage(Message message);
+
+        Message GetMessage(int id);
     }
 }

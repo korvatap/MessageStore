@@ -6,7 +6,13 @@
     ViewData["Title"] = "Edit Page";
 }
 
-<form method="post" action="/Create">
+@if (ViewBag.ErrorMessage != null)
+{
+    <div style="margin-top: 15px; color: red">@ViewBag.ErrorMessage</div>
+}
+
+<form method="post" asp-controller="Edit" asp-action="save">
+    <input type="hidden" asp-for="Id" />
     <div class="form-group row" style="margin-top:10px;">
         <div class="col-xs-3">
             <label for="title">Title:</label>
@@ -19,6 +25,5 @@
             <textarea asp-for="Body" class="form-control" id="body"></textarea>
         </div>
     </div>
-
     <button type="submit">Save</button>
 </form>
