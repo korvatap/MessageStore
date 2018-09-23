@@ -11,7 +11,7 @@
             <div class="col-xs-3">
                 <label for="title">Title:</label>
                 <input type="hidden" asp-for="Id" />
-                <input asp-for="Title" id="messageTitle" class="form-control">
+                <input asp-for="Title" id="messageTitle" class="form-control" maxlength="500">
             </div>
         </div>
         <button class="btn btn-primary" id="submitButton" type="submit">Save</button>
@@ -24,7 +24,7 @@ else
             <div class="col-xs-4">
                 <label for="body">Body:</label>
                 <input type="hidden" asp-for="Id" />
-                <textarea asp-for="Body" id="messageBody" class="form-control"></textarea>
+                <textarea asp-for="Body" id="messageBody" class="form-control" maxlength="500"></textarea>
             </div>
         </div>
         <button class="btn btn-primary" type="submit" id="submitButton">Save</button>

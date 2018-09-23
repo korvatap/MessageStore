@@ -4,29 +4,33 @@ using Xunit;
 
 namespace MessageStore.API.Tests
 {
-    public class MessageDateStoreShould
+    public class MessageDataStoreShould : IClassFixture<TestFixture>
     {
+        private IMessageDataStore _messageDataStore;
+
+        public MessageDataStoreShould(TestFixture fixture)
+        {
+            _messageDataStore = fixture.DataStore;
+        }
+
         [Fact]
         public void BeEmptyWhenNew()
         {
-            var storage = new MessageDataStore();
-            Assert.Empty(storage.GetMessages());
+            Assert.Empty(_messageDataStore.GetMessages());
         }
 
         [Fact]
         public void ContainMessagesAfterAdding()
         {
-            var storage = new MessageDataStore();
-            
             var message = new Message
             {
                 Title = "TestMessageTitle",
                 Body = "TestMessageBody"
             };
 
-            storage.AddMessage(message);
+            _messageDataStore.AddMessage(message);
 
-            var messageFromStore = storage.GetMessage(1);
+            var messageFromStore = _messageDataStore.GetMessage(1);
 
             Assert.NotNull(messageFromStore);
         }
@@ -34,7 +38,6 @@ namespace MessageStore.API.Tests
         [Fact]
         public void HaveSameNumberOfMessages()
         {
-            var storage = new MessageDataStore();
             int numberOfMessages = 100;
             for (int i = 0; i < numberOfMessages; i++)
             {
@@ -44,27 +47,25 @@ namespace MessageStore.API.Tests
                     Body = $"TestMessageBody{i}"
                 };
 
-                storage.AddMessage(message);
+                _messageDataStore.AddMessage(message);
             }
 
-            Assert.Equal(numberOfMessages, storage.GetNumberOfMessages());
+            Assert.Equal(numberOfMessages, _messageDataStore.GetNumberOfMessages());
         }
 
         [Fact]
         public void NotContainMessageAfterRemove()
         {
-            var storage = new MessageDataStore();
-
             var message = new Message
             {
                 Title = "TestMessageTitle",
                 Body = "TestMessageBody"
             };
 
-            storage.AddMessage(message);
-            storage.RemoveMessage(message);
+            _messageDataStore.AddMessage(message);
+            _messageDataStore.RemoveMessage(message);
 
-            Assert.Equal(0, storage.GetNumberOfMessages());
+            Assert.Equal(0, _messageDataStore.GetNumberOfMessages());
         }
     }
 }

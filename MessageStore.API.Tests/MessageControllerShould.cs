@@ -12,27 +12,15 @@ using Xunit;
 
 namespace MessageStore.API.Tests
 {
-    public class MessageControllerShould
+    public class MessageControllerShould : IClassFixture<TestFixture>
     {
-        readonly MessageController _controller;
-        private const int numberOfMessages = 100;
+        private readonly MessageController _controller;
+        private readonly int _numberOfMessages;
 
-        public MessageControllerShould()
+        public MessageControllerShould(TestFixture fixture)
         {
-            var storage = new MessageDataStore();
-            //testdata
-            for (int i = 0; i < numberOfMessages; i++)
-            {
-                var message = new Message
-                {
-                    Title = $"TestMessageTitle{i}",
-                    Body = $"TestMessageBody{i}"
-                };
-
-                storage.AddMessage(message);
-            }
-
-            _controller = new MessageController(storage);
+            _controller = fixture.MessageController;
+            _numberOfMessages = fixture.NumberOfMessages;
 
             // model validation does not work in unit testing, have to mock it
             var objectValidator = new Mock<IObjectModelValidator>();
@@ -59,7 +47,7 @@ namespace MessageStore.API.Tests
             var okResult = result as OkObjectResult;
 
             var storageMessages = Assert.IsType<List<Message>>(okResult.Value);
-            Assert.Equal(numberOfMessages, storageMessages.Count);
+            Assert.Equal(_numberOfMessages, storageMessages.Count);
         }
 
         [Fact]
@@ -82,7 +70,7 @@ namespace MessageStore.API.Tests
         [Fact]
         public void NotReturnMessageFromGetMessageWithWrongId()
         {
-            IActionResult result = _controller.GetMessage(numberOfMessages+1);
+            IActionResult result = _controller.GetMessage(_numberOfMessages + 1);
             Assert.IsType<NotFoundResult>(result);
         }
 
@@ -284,7 +272,7 @@ namespace MessageStore.API.Tests
         [Fact]
         public void ReturnNotFoundWhenDeleteMessageCalledOnNonExistingMessage()
         {
-            IActionResult result = _controller.DeleteMessage(numberOfMessages+1);
+            IActionResult result = _controller.DeleteMessage(_numberOfMessages + 1);
             Assert.IsType<NotFoundResult>(result);
         }
     }

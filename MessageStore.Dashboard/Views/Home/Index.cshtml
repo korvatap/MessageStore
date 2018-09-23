@@ -1,6 +1,6 @@
 ﻿@inject MessageStore.Dashboard.Configuration.IApplicationConfiguration appSettings;
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Messages Page";
     string apiUrl = appSettings.MessageStoreApiUrl;
 }
 
@@ -17,6 +17,7 @@
             <thead>
                 <tr>
                     <th>Title</th>
+                    <th>Body</th>
                     <th>CreatedAt</th>
                     <th>ModifiedAt</th>
                     <th>Edit</th>
@@ -53,12 +54,11 @@
 
     $(document).ready(function () {
         messageTable = $("#messages").DataTable({
-
             "processing": false,
             "serverSide": false,
             "filter": false,
             "orderMulti": false,
-            "pageLength": 5,
+            "pageLength": 10,
 
             "ajax": {
                 "url": "@apiUrl" + "api/messages",
@@ -70,16 +70,23 @@
             "columnDefs":
                 [
                     {
-                    "targets": [0],
-                    "visible": true,
-                    "searchable": false
+                        "targets": [0],
+                        "visible": true,
+                        "searchable": false,
+                        "render": function(data, type, full, meta) {
+
+                            var result = data = typeof data === 'string' && data.length > 10 ? data.substring(0, 10) + '...' : data;
+                            return result;
+                        }
                     },
                     {
                         "targets": [1],
                         "visible": true,
-                        "render": function (data, type, row) {
-                            var date = new Date(data);
-                            return date.getDate() + "." + date.getMonth() + "." + date.getFullYear() + " " + date.getHours() + "." + date.getMinutes();
+                        "searchable": false,
+                        "render": function(data, type, full, meta) {
+
+                            var result = data = typeof data === 'string' && data.length > 10 ? data.substring(0, 10) + '...' : data;
+                            return result;
                         }
                     },
                     {
@@ -92,7 +99,11 @@
                     },
                     {
                         "targets": [3],
-                        "orderable": false,
+                        "visible": true,
+                        "render": function (data, type, row) {
+                            var date = new Date(data);
+                            return date.getDate() + "." + date.getMonth() + "." + date.getFullYear() + " " + date.getHours() + "." + date.getMinutes();
+                        }
                     },
                     {
                         "targets": [4],
@@ -105,11 +116,16 @@
                     {
                         "targets": [6],
                         "orderable": false,
+                    },
+                    {
+                        "targets": [7],
+                        "orderable": false,
                     }
                 ],
 
             "columns": [
                 { "data": "Title", "name": "Title", "autoWidth": true },
+                { "data": "Body", "name": "Body", "autoWidth": true },
                 { "data": "CreatedAt", "name": "CreatedAt", "autoWidth": true },
                 { "data": "ModifiedAt", "name": "ModifiedAt", "autoWidth": true },
                 {

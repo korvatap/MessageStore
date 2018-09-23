@@ -61,7 +61,7 @@ namespace MessageStore.Dashboard.Controllers
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
-                string message = "Please check your input data. Make sure both fields are not empty and Title cannot equal to Body";
+                string message = "Please check your input data. Make sure both fields are not empty and Title cannot equal to Body.";
                 return RedirectToAction("Index", new { errorMessage = message, messageToFix = messageToSave });
             }
 
