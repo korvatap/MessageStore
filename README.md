@@ -21,6 +21,22 @@
 This project is a RESTful API which works as a message store.
 This API supports GET, POST, PUT, PATCH, DELETE HTTP request method.
 Accepted Content-Type: application/json
+
+### Configuration MessageStore/MessageStore.API/Properties/launchSettings.json
+To change url/port where API will listen, change applicationUrl field in json file.
+example:
+
+```
+"MessageStore.API": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+  }
+```
+
 ### Get requests
   #### Get all messages in store
   javascript example:
@@ -163,6 +179,23 @@ $.ajax(settings).done(function (response) {
 This project is a Web application using ASP.NET Core MVC framework.
 With this web application you can see the API in action.
 In the UI you can execute all HTTP request methods mentioned above.
+
+### Configuration - appsettings.json
+Below is an config file where you can set MessageStoreApiUrl if you have changed API settings:
+
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ApplicationConfiguration": {
+    "MessageStoreApiUrl": "http://localhost:5000/"
+  }
+}
+```
 
 ## MessageStore.API.Tests
 This xunit test project to test the MessageStore.API.
