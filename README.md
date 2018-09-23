@@ -5,7 +5,7 @@
 - MessageStore.API.Tests
 
 ## Requirements
-- .NET Core SDK 2.1. You can download it from https://www.microsoft.com/net/download.
+.NET Core SDK 2.1. You can download it from https://www.microsoft.com/net/download.
 
 ## How to run
 ### API & Dashboard
