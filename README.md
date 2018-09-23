@@ -7,6 +7,11 @@
 ## Requirements
 .NET Core SDK 2.1. You can download it from https://www.microsoft.com/net/download.
 
+## How to get using git
+- Open command prompt/terminal
+- Navigate to desired folder where to clone the repository
+- Run command "git clone git@github.com:korvatap/MessageStore.git"
+
 ## How to run
 ### API & Dashboard
 - Open command prompt/terminal etc.
