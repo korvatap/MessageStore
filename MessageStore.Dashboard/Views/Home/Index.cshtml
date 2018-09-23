@@ -41,9 +41,9 @@
     }
 
     function Delete(messageId) {
-        var url = "@apiUrl" + "api/messages/";
+        var url = "@apiUrl" + "api/messages/delete" + "?messageId=" + messageId;
         $.ajax({
-            url: url + messageId,
+            url: url,
             type: 'DELETE',
             success: function (result) {
                 messageTable.ajax.reload();
@@ -116,7 +116,7 @@
                     "render": function (data, type, full, meta) { return '<a class="btn btn-primary" href="/Edit?messageId=' + full.Id + '">Edit</a>'; }
                 },
                 {
-                    render: function (data, type, row) { return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.Id + "'); >Delete</a>"; }
+                    render: function (data, type, full, meta) { return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + full.Id + "'); >Delete</a>"; }
                 },
                 {
                     "render": function (data, type, full, meta) { return '<a class="btn btn-warning" href="/Patch?messageId=' + full.Id + '&patchTitle=true">Patch title</a>'; }

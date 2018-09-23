@@ -111,7 +111,7 @@ namespace MessageStore.API.Controllers
             if (patchDoc == null)
                 return BadRequest();
 
-            var messageFromStorage = _current.GetMessage(messageId);
+            Message messageFromStorage = _current.GetMessage(messageId);
 
             if (messageFromStorage == null)
                 return NotFound();

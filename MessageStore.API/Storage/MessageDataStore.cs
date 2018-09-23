@@ -11,15 +11,6 @@ namespace MessageStore.API.Storage
 
         public MessageDataStore()
         {
-            for(int i = 0; i < 100; i++) {
-                var message = new Message 
-                {
-                    Id = i,
-                    Title = $"testTitle{i}",
-                    Body = $"testBody{i}"
-                };
-                AddMessage(message);
-            }
         }
 
         public List<Message> GetMessages()

@@ -6,6 +6,7 @@ using MessageStore.API.Storage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -21,21 +22,25 @@ namespace MessageStore.API
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
-            {
-                builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
-            }))
-            .AddMvc()
-            .AddMvcOptions(o => o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter()))
-            .AddJsonOptions(o => {
-                if(o.SerializerSettings.ContractResolver != null) 
+            services
+                .AddCors(o => o.AddPolicy("MyPolicy", builder =>
                 {
-                    var castedResolver = o.SerializerSettings.ContractResolver as DefaultContractResolver;
-                    castedResolver.NamingStrategy = null;
-                }
-            });
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+
+                }))
+                .AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(o => 
+                {
+                    if (o.SerializerSettings.ContractResolver != null)
+                    {
+                        var castedResolver = o.SerializerSettings.ContractResolver as DefaultContractResolver;
+                        castedResolver.NamingStrategy = null;
+                    }
+                });
 
             services.AddSingleton<IMessageDataStore, MessageDataStore>();
         }
