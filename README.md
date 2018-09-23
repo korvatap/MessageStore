@@ -16,11 +16,11 @@
 ### API & Dashboard
 - Open command prompt/terminal etc.
 - Navigate to desired project folder
-- Run command "dotnet run"
+- Run command `dotnet run`
 ### Tests
 - Open command prompt/terminal etc.
 - Navigate to desired project folder
-- Run command "dotnet test"
+- Run command `dotnet test`
 
 ## MessageStore.API
 This project is a RESTful API which works as a message store.
