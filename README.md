@@ -17,6 +17,7 @@
 - Open command prompt/terminal etc.
 - Navigate to desired project folder
 - Run command `dotnet run`
+- (If you want to use Dashboard you need to also run the API)
 ### Tests
 - Open command prompt/terminal etc.
 - Navigate to desired project folder
