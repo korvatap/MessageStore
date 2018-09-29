@@ -10,7 +10,7 @@
 ## How to get using git
 - Open command prompt/terminal
 - Navigate to desired folder where to clone the repository
-- Run command `git clone git@github.com:korvatap/MessageStore.git`
+- Run command `git clone https://github.com/korvatap/MessageStore.git`
 
 ## How to run
 ### API & Dashboard
